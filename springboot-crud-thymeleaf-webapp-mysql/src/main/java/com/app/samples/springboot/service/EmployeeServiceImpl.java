@@ -2,7 +2,10 @@ package com.app.samples.springboot.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.app.samples.springboot.entity.Employee;
 import com.app.samples.springboot.repository.EmployeeRepository;
@@ -11,6 +14,8 @@ import com.app.samples.springboot.repository.EmployeeRepository;
 /**
  * The Class EmployeeServiceImpl.
  */
+@Service
+@Transactional
 public class EmployeeServiceImpl implements EmployeeService{
 
 	/** The employee repository. */
