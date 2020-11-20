@@ -23,4 +23,20 @@ public interface EmployeeService {
 	 * @param employee the employee
 	 */
 	public void saveEmpoyee(Employee employee);
+	
+	/**
+	 * Gets the employee by id.
+	 *
+	 * @param employeeId the employee id
+	 * @return the employee by id
+	 */
+	public Employee getEmployeeById(long employeeId);
+	
+	
+	/**
+	 * Delete employee.
+	 *
+	 * @param id the id
+	 */
+	public void deleteEmployee(long id);
 }
