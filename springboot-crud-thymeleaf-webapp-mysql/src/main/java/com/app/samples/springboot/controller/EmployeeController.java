@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.samples.springboot.entity.Employee;
 import com.app.samples.springboot.service.EmployeeService;
@@ -37,7 +38,7 @@ public class EmployeeController {
 		//	List<Employee> employeesList = employeeService.getAllEmployees();
 		//	model.addAttribute("employees", employeesList);
 		//	return "index";
-		return viewPaginated(1, model);
+		return viewPaginated(1, "firstName", "asc", model);
 	}
 	
 	/**
@@ -94,14 +95,28 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	/**
+	 * View paginated.
+	 *
+	 * @param pageNumber the page number
+	 * @param sortField the sort field
+	 * @param sortDirection the sort direction
+	 * @param model the model
+	 * @return the string
+	 */
 	@GetMapping("/page/{pageNumber}")
-	public String viewPaginated(@PathVariable("pageNumber") int pageNumber, Model model) {
+	public String viewPaginated(@PathVariable("pageNumber") int pageNumber, 
+								@RequestParam("sortField") String sortField,
+								@RequestParam("sortDirection") String sortDirection, Model model) {
 		int pageSize = 5;
-		Page<Employee> paginatedEmployee = employeeService.findPaginatedEmployee(pageNumber, pageSize);
+		Page<Employee> paginatedEmployee = employeeService.findPaginatedEmployee(pageNumber, pageSize, sortField, sortDirection);
 		List<Employee> employeesList = paginatedEmployee.getContent();
 		model.addAttribute("currentPage", pageNumber);
 		model.addAttribute("totalPages", paginatedEmployee.getTotalPages());
 		model.addAttribute("totalEmployees", paginatedEmployee.getTotalElements());
+		model.addAttribute("sortField", sortField);
+		model.addAttribute("sortDirection", sortDirection);
+		model.addAttribute("reverseSortDirection", sortDirection.equalsIgnoreCase("asc") ? "desc" : "asc");
 		model.addAttribute("employeesList", employeesList);
 		return "index";
 	}

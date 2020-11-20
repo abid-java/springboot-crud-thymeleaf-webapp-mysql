@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.app.samples.springboot.entity.Employee;
@@ -77,10 +78,24 @@ public class EmployeeServiceImpl implements EmployeeService{
 		
 	}
 
+	/**
+	 * Find paginated employee.
+	 *
+	 * @param pageNumber the page number
+	 * @param pageSize the page size
+	 * @param sortField the sort field
+	 * @param sortDirection the sort direction
+	 * @return the page
+	 */
 	@Override
-	public Page<Employee> findPaginatedEmployee(int pageNumber, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNumber-1, pageSize);
-		return employeeRepository.findAll(pageable);
+	public Page<Employee> findPaginatedEmployee(int pageNumber, int pageSize, String sortField, String sortDirection) {
+		Sort sort = null;
+		if(sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())) {
+			sort = Sort.by(sortField).ascending();
+		}else {
+			sort = Sort.by(sortField).descending();
+		}
+		Pageable pageable = PageRequest.of(pageNumber-1, pageSize, sort);
+		return employeeRepository.findAll(pageable);	
 	}
-
 }

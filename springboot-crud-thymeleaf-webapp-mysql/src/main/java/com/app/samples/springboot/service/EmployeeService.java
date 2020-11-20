@@ -47,7 +47,9 @@ public interface EmployeeService {
 	 *
 	 * @param pageNumber the page number
 	 * @param pageSize the page size
+	 * @param sortField the sort field
+	 * @param sortDirection the sort direction
 	 * @return the page
 	 */
-	Page<Employee> findPaginatedEmployee(int pageNumber, int pageSize);
+	Page<Employee> findPaginatedEmployee(int pageNumber, int pageSize, String sortField, String sortDirection);
 }
