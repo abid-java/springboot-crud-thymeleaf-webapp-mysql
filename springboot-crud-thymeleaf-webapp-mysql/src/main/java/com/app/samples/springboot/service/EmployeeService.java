@@ -16,4 +16,11 @@ public interface EmployeeService {
 	 * @return the all employees
 	 */
 	public List<Employee> getAllEmployees();
+	
+	/**
+	 * Save empoyee.
+	 *
+	 * @param employee the employee
+	 */
+	public void saveEmpoyee(Employee employee);
 }
