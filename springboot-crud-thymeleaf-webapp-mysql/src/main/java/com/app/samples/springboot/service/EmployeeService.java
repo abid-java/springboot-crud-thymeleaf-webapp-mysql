@@ -2,6 +2,8 @@ package com.app.samples.springboot.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.app.samples.springboot.entity.Employee;
 
 // TODO: Auto-generated Javadoc
@@ -39,4 +41,13 @@ public interface EmployeeService {
 	 * @param id the id
 	 */
 	public void deleteEmployee(long id);
+	
+	/**
+	 * Find paginated employee.
+	 *
+	 * @param pageNumber the page number
+	 * @param pageSize the page size
+	 * @return the page
+	 */
+	Page<Employee> findPaginatedEmployee(int pageNumber, int pageSize);
 }

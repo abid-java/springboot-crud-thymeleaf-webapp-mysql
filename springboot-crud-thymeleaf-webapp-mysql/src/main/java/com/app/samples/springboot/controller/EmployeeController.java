@@ -3,6 +3,7 @@ package com.app.samples.springboot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,9 +34,10 @@ public class EmployeeController {
 	//display list of employees
 	@GetMapping("/")
 	public String getAllEmployees(Model model) {
-		List<Employee> employeesList = employeeService.getAllEmployees();
-		model.addAttribute("employees", employeesList);
-		return "index";
+		//	List<Employee> employeesList = employeeService.getAllEmployees();
+		//	model.addAttribute("employees", employeesList);
+		//	return "index";
+		return viewPaginated(1, model);
 	}
 	
 	/**
@@ -92,5 +94,16 @@ public class EmployeeController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("/page/{pageNumber}")
+	public String viewPaginated(@PathVariable("pageNumber") int pageNumber, Model model) {
+		int pageSize = 5;
+		Page<Employee> paginatedEmployee = employeeService.findPaginatedEmployee(pageNumber, pageSize);
+		List<Employee> employeesList = paginatedEmployee.getContent();
+		model.addAttribute("currentPage", pageNumber);
+		model.addAttribute("totalPages", paginatedEmployee.getTotalPages());
+		model.addAttribute("totalEmployees", paginatedEmployee.getTotalElements());
+		model.addAttribute("employeesList", employeesList);
+		return "index";
+	}
 	
 }
